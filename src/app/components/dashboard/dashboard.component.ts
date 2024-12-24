@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Product } from '../../../type';
-import { ProductService } from '../../../services/product.service';
 import { NgFor } from '@angular/common';
 
 @Component({

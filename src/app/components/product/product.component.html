@@ -1,34 +1,71 @@
-<div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">Stock</h1>
-    <p>Welcome to the product!</p>
-    <div class="mat-elevation-z8">
-        <mat-table [dataSource]="dataSource" matSort>
-
-            <!-- ID Column -->
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-            </ng-container>
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-            </ng-container>
-
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <button mat-button (click)="edit(element)">Edit</button>
-                    <button mat-button (click)="delete(element)">Delete</button>
-                </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-</div>
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>First name</th>
+            <th>Last name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Foo</td>
+            <td>Bar</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Someone</td>
+            <td>Youknow</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Iamout</td>
+            <td>Ofinspiration</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Yoda</td>
+            <td>Skywalker</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Patrick</td>
+            <td>Dupont</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Barack</td>
+            <td>Obama</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>François</td>
+            <td>Holland</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michel</td>
+            <td>Popo</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Chuck</td>
+            <td>Norris</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Simon</td>
+            <td>Robin</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>Louis</td>
+            <td>Lin</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>Zelda</td>
+            <td>Link</td>
+        </tr>
+    </tbody>
+</table>
