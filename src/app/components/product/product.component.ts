@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
+import { ProductFormDialogComponent } from './form/form.component';
 
 @Component({
   selector: 'app-product',
@@ -46,7 +47,21 @@ export class ProductComponent implements OnInit {
   }
 
   addElement() {
-    this._router.navigate(['admin/product/form']);
+    const dialogRef = this.dialog.open(ProductFormDialogComponent, {
+      width: '800px',
+      height: 'auto',
+      disableClose: true,
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        
+        // Handle the form submission
+        // this.yourService.createProduct(result).subscribe();
+      }
+    });
   }
 
   excelExport() {
