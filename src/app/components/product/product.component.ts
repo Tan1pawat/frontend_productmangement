@@ -1,16 +1,18 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Product } from '../../../type';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Config } from 'datatables.net';
 import { ProductService } from './product.service';
-import { DataTablesModule } from 'angular-datatables';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductFormDialogComponent } from './form/form.component';
+import { Subject } from 'rxjs';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -26,7 +28,7 @@ import { ProductFormDialogComponent } from './form/form.component';
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor
     (
       private _Productservice: ProductService,
@@ -35,6 +37,9 @@ export class ProductComponent implements OnInit {
       private dialog: MatDialog,
     ) { }
   dtOptions: Config = {};
+  dtTrigger: Subject<any> = new Subject();
+  @ViewChild(DataTableDirective)
+  dtElement!: DataTableDirective
   languageUrl = 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json';
   dataRow: any[] = [];
   isLoading: boolean = false;
@@ -56,10 +61,7 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result);
-        
-        // Handle the form submission
-        // this.yourService.createProduct(result).subscribe();
+        this.rerender();
       }
     });
   }
@@ -71,101 +73,49 @@ export class ProductComponent implements OnInit {
   }
 
   editElement(element: any) {
-    this._router.navigate(['admin/product/edit/' + element]);
+    this.rerender();
   }
 
-  viewElement(element: any) {
-    // const dialogRef = this.dialog.open(EditDialogComponent, {
-    //     width: '700px', // กำหนดความกว้างของ Dialog
-    //     data: element,
-    // });
-
-    // dialogRef.afterClosed().subscribe((result) => {
-    //     if (result) {
-    //         //    console.log(result,'result')
-    //     }
-    // });
-  }
-
-  delete(itemid: any) {
-    // if (this.langues == 'tr') {
-    //   const confirmation = this._fuseConfirmationService.open({
-    //     title: 'ลบข้อมูล',
-    //     message: 'คุณต้องการลบข้อมูลใช่หรือไม่ ?',
-    //     icon: {
-    //       show: true,
-    //       name: 'heroicons_outline:exclamation-triangle',
-    //       color: 'warning',
-    //     },
-    //     actions: {
-    //       confirm: {
-    //         show: true,
-    //         label: 'Remove',
-    //         color: 'warn',
-    //       },
-    //       cancel: {
-    //         show: true,
-    //         label: 'Cancel',
-    //       },
-    //     },
-    //     dismissible: true,
-    //   });
-    //   confirmation.afterClosed().subscribe((result) => {
-    //     if (result === 'confirmed') {
-    //       this._service.delete(itemid).subscribe((resp) => {
-    //         this.rerender();
-    //       });
-    //     }
-    //     error: (err: any) => { };
-    //   });
-    // }
-    // else if (this.langues == 'en') {
-    //   const confirmation = this._fuseConfirmationService.open({
-    //     title: 'Delete Data',
-    //     message: ' Do you want to delete the data ?',
-    //     icon: {
-    //       show: true,
-    //       name: 'heroicons_outline:exclamation-triangle',
-    //       color: 'warning',
-    //     },
-    //     actions: {
-    //       confirm: {
-    //         show: true,
-    //         label: 'Remove',
-    //         color: 'warn',
-    //       },
-    //       cancel: {
-    //         show: true,
-    //         label: 'Cancel',
-    //       },
-    //     },
-    //     dismissible: true,
-    //   });
-    //   confirmation.afterClosed().subscribe((result) => {
-    //     if (result === 'confirmed') {
-    //       this._service.delete(itemid).subscribe((resp) => {
-    //         this.rerender();
-    //       });
-    //     }
-    //     error: (err: any) => { };
-    //   });
-    // }
+  delete(itemid: any): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'ลบข้อมูล',
+        message: 'คุณต้องการลบข้อมูลไหม?',
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === 'confirmed') {
+        this._Productservice.delete(itemid).subscribe({
+          next: () => {
+            this.rerender();
+          },
+          error: (err: any) => {
+            console.error('Error deleting item:', err);
+          },
+        });
+      }
+    });
   }
 
   showPicture(imgObject: any): void {
     this.dialog
-        .open(PictureComponent, {
-            autoFocus: false,
-            data: {
-                imgSelected: imgObject,
-            },
-        })
-        .afterClosed()
-        .subscribe(() => {
-            // Go up twice because card routes are setup like this; "card/CARD_ID"
-            // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
-        });
-}
+      .open(PictureComponent, {
+        width: 'auto',
+        height: 'auto',
+        disableClose: true,
+        data: {
+          imgSelected: imgObject,
+        },
+        panelClass: 'picture-dialog',
+      })
+      .afterClosed()
+      .subscribe(() => {
+        // Go up twice because card routes are setup like this; "card/CARD_ID"
+        // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
+      });
+  }
 
   pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
 
@@ -204,6 +154,26 @@ export class ProductComponent implements OnInit {
           });
       }
     };
+
   }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next(null);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    if (this.dtElement.dtInstance) {
+      this.dtElement.dtInstance.then((dtInstance) => {
+        dtInstance.ajax.reload();
+      });
+    } else {
+      // If DataTables instance is not ready, reinitialize
+      this.dtTrigger.next(null);
+    }
+  }
 }

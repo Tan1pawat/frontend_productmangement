@@ -1,0 +1,29 @@
+<div class="dashboard-container">
+    <!-- Income vs Expense Chart -->
+    <div class="card">
+        <h2>Monthly Financial Overview</h2>
+        <ngx-charts-bar-vertical-2d [view]="view"  [results]="financialData" [gradient]="true"
+            [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true"
+            [xAxisLabel]="'Month'" [yAxisLabel]="'Amount ($)'" [legendTitle]="'Type'" [groupPadding]="20"
+            [barPadding]="5" (select)="onSelect($event)">
+        </ngx-charts-bar-vertical-2d>
+    </div>
+
+    <!-- Stock Levels Chart -->
+    <div class="card">
+        <h2>Current Stock Levels</h2>
+        <ngx-charts-bar-horizontal [view]="view"  [results]="stockData" [gradient]="true"
+            [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Quantity'"
+            [yAxisLabel]="'Product'" (select)="onSelect($event)">
+        </ngx-charts-bar-horizontal>
+    </div>
+
+    <!-- Sales Trend Chart -->
+    <div class="card">
+        <h2>Sales Trends</h2>
+        <ngx-charts-line-chart [view]="view"  [results]="salesTrendData" [gradient]="false"
+            [xAxis]="true" [yAxis]="true" [legend]="true" [showXAxisLabel]="true" [showYAxisLabel]="true"
+            [xAxisLabel]="'Month'" [yAxisLabel]="'Sales'" [autoScale]="true" (select)="onSelect($event)">
+        </ngx-charts-line-chart>
+    </div>
+</div>
