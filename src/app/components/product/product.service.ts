@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { DataTablesResponse } from '../../shared/datatable.types';
+import { Product } from '../../shared/product.types';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,16 @@ export class ProductService {
         );
 }
 
+update(data: any,id:any): Observable<any> {
+  return this._httpClient
+      .put<any>(environment.baseURL + '/api/product/'+id, data)
+      .pipe(
+        switchMap((response: any) => {
+          return of(response.data);
+        })
+      );
+}
+
 delete(id: number): Observable<any> {
   return this._httpClient
       .delete<any>(environment.baseURL + '/api/product/'+id)
@@ -45,6 +56,16 @@ delete(id: number): Observable<any> {
           return of(response.data);
         })
       );
+}
+
+getproductById(id:number): Observable<Product> {
+  return this._httpClient.get<any[]>(
+    environment.baseURL + '/api/product/' + id
+  ).pipe(
+    switchMap((response: any) => {
+      return of(response.data);
+    })
+  );
 }
 
   uploadImg(img: FormData): Observable<any> {

@@ -77,6 +77,7 @@ export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
     const dialogRef = this.dialog.open(ProductFormEditComponent, {
       width: '800px',
       height: 'auto',
+      data: { id: id },
       disableClose: true,
 
     });

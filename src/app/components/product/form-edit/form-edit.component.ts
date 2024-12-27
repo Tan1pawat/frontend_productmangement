@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '../product.service';
+import { environment } from '../../../../environments/environment.development';
 @Component({
   selector: 'app-form-edit',
   standalone: true,
@@ -45,7 +46,21 @@ export class ProductFormEditComponent {
   }
 
   ngOnInit() {
-    // Here you would fetch units and product types from your service
+
+    this._Productservice.getproductById(this.data.id).subscribe({
+      next: (response) => {
+        
+        this.productForm.patchValue(response);
+        if (response.image) {
+
+          this.imagePreview = environment.baseURL + response.image;
+        }
+      },
+      error: (error) => {
+        console.error('Error fetching product:', error);
+      },
+    });
+
     this._Productservice.getunit().subscribe({
       next: (units) => {
         this.units = units;
@@ -55,7 +70,6 @@ export class ProductFormEditComponent {
       },
     });
   
-    // Fetching product types
     this._Productservice.getproductTypes().subscribe({
       next: (productTypes) => {
         this.productTypes = productTypes;
@@ -65,13 +79,6 @@ export class ProductFormEditComponent {
       },
     });
 
-
-    if (this.isEdit && this.data) {
-      this.productForm.patchValue(this.data);
-      if (this.data.image) {
-        this.imagePreview = this.data.image;
-      }
-    }
   }
 
   private initForm() {
@@ -118,24 +125,24 @@ export class ProductFormEditComponent {
 
   onSubmit() {
     if (this.productForm.valid) {
-      // Create FormData for file upload
-      const formData = new FormData();
-      const formValue = this.productForm.value;
+      const updateData = {
+        name: this.productForm.value.name,
+        value: this.productForm.value.value,
+        unit_id: this.productForm.value.unit_id,
+        product_type_id: this.productForm.value.product_type_id,
+        image: this.productForm.value.image
+      };
 
-      Object.keys(formValue).forEach(key => {
-        formData.append(key, formValue[key]);
-      });
-
-      this._Productservice.create(formData).subscribe({
+      this._Productservice.update(updateData,this.data.id).subscribe({
         next: (response) => {
-          console.log('Product created successfully', response);
+          console.log('Product update successfully', response);
         },
         error: (error) => {
-          console.error('Error creating product', error);
+          console.error('Error updating product', error);
         }
       });
 
-      this.dialogRef.close(formData);
+      this.dialogRef.close(updateData);
     }
   }
 }
