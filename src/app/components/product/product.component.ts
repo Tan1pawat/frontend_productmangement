@@ -13,6 +13,7 @@ import { PictureComponent } from '../picture/picture.component';
 import { ProductFormDialogComponent } from './form/form.component';
 import { Subject } from 'rxjs';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { ProductFormEditComponent } from './form-edit/form-edit.component';
 
 @Component({
   selector: 'app-product',
@@ -72,8 +73,19 @@ export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
     );
   }
 
-  editElement(element: any) {
-    this.rerender();
+  editElement(id: number) {
+    const dialogRef = this.dialog.open(ProductFormEditComponent, {
+      width: '800px',
+      height: 'auto',
+      disableClose: true,
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.rerender();
+      }
+    });
   }
 
   delete(itemid: any): void {
