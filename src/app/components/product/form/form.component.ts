@@ -78,6 +78,7 @@ export class ProductFormDialogComponent  implements OnInit {
   private initForm() {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
+      price: ['', Validators.required],
       value: ['', Validators.required],
       unit_id: ['', Validators.required],
       product_type_id: ['', Validators.required],

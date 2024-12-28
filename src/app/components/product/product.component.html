@@ -8,9 +8,9 @@
     <div class="flex flex-col sm:flex-row items-center justify-between p-8 border-b bg-white shadow-sm">
         <div class="w-full">
             <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
-                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900">
+                <span class="text-xl font-semibold tracking-tight text-gray-900">
                     สินค้าในคลัง
-                </h1>
+                </span>
                 <div class="flex items-center gap-4">
                     <button
                         class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center"
@@ -34,6 +34,7 @@
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ลําดับ</th>
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">รหัสสินค้า</th>
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ชื่อสินค้า</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ราคาต้นทุน</th>
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">จำนวน</th>
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">หน่วย</th>
                             <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ชนิดสินค้า</th>
@@ -58,6 +59,7 @@
                             <td class="px-6 py-4 text-center align-middle">{{ item.No }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.code || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.name || "-" }}</td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.price || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.value || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.unit_name || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.product_type_name || "-" }}</td>

@@ -84,6 +84,7 @@ export class ProductFormEditComponent {
   private initForm() {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
+      price: ['', Validators.required],
       value: ['', Validators.required],
       unit_id: ['', Validators.required],
       product_type_id: ['', Validators.required],
@@ -127,6 +128,7 @@ export class ProductFormEditComponent {
     if (this.productForm.valid) {
       const updateData = {
         name: this.productForm.value.name,
+        price: this.productForm.value.price,
         value: this.productForm.value.value,
         unit_id: this.productForm.value.unit_id,
         product_type_id: this.productForm.value.product_type_id,

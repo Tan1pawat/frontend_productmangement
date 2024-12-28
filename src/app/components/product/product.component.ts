@@ -1,6 +1,4 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product } from '../../../type';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Config } from 'datatables.net';
 import { ProductService } from './product.service';
@@ -46,9 +44,6 @@ export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
   isLoading: boolean = false;
 
   ngOnInit() {
-    this.dtOptions = {
-      pagingType: 'full_numbers'
-    };
     this.loadTable();
   }
 
@@ -67,11 +62,11 @@ export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
     });
   }
 
-  excelExport() {
-    window.open(
-      'https://laongherbalgroup.com/api/public/api/export_product/1'
-    );
-  }
+  // excelExport() {
+  //   window.open(
+  //     'https://laongherbalgroup.com/api/public/api/export_product/1'
+  //   );
+  // }
 
   editElement(id: number) {
     const dialogRef = this.dialog.open(ProductFormEditComponent, {

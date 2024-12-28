@@ -30,6 +30,14 @@
             </mat-form-field>
 
             <mat-form-field class="w-full">
+                <mat-label>ราคาต้นทุน</mat-label>
+                <input matInput type="number" formControlName="price" placeholder="กรอกจำนวน">
+                <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+                    กรุณากรอกราคาต้นทุน
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
                 <mat-label>จำนวน</mat-label>
                 <input matInput type="number" formControlName="value" placeholder="กรอกจำนวน">
                 <mat-error *ngIf="productForm.get('value')?.hasError('required')">
