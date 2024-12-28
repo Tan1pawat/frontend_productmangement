@@ -1,0 +1,22 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .bill-order-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .bill-order-item {
+    border: 1px solid #ddd;
+    padding: 16px;
+    border-radius: 8px;
+  }
+  

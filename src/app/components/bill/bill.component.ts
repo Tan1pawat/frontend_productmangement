@@ -10,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import { BillOrderFormComponent } from './bill-order-form/bill-order-form.component';
 
 @Component({
   selector: 'app-bill',
@@ -90,18 +91,18 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   addElement() {
-    // const dialogRef = this.dialog.open(ProductFormDialogComponent, {
-    //   width: '800px',
-    //   height: 'auto',
-    //   disableClose: true,
+    const dialogRef = this.dialog.open(BillOrderFormComponent, {
+      width: '800px',
+      height: 'auto',
+      disableClose: true,
 
-    // });
+    });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     this.rerender();
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.rerender();
+      }
+    });
   }
 
     editElement(id: number) {
