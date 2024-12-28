@@ -12,7 +12,8 @@ export class BillService {
   constructor(private _httpClient: HttpClient) { }
 
   getPage(dataTablesParameters: any): Observable<DataTablesResponse> {
-
+    console.log(dataTablesParameters);
+    
     return this._httpClient
       .post(
         environment.baseURL + '/api/bill_page',
@@ -25,5 +26,25 @@ export class BillService {
           return of(response.data);
         })
       );
+  }
+
+  getprisons(): Observable<any[]> {
+    return this._httpClient.get<any[]>(
+      environment.baseURL + '/api/get_prison'
+    ).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
+  getcompanies(): Observable<any[]> {
+    return this._httpClient.get<any[]>(
+      environment.baseURL + '/api/get_company'
+    ).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
   }
 }

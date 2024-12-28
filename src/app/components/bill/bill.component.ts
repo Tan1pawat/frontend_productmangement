@@ -8,14 +8,18 @@ import { BillService } from './bill.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIcon } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-bill',
   standalone: true,
   imports: [
+    FormsModule,
     MatProgressBarModule,
     DataTablesModule,
     MatIcon,
+    MatSelectModule,
     NgIf,
     NgFor
   ],
@@ -38,10 +42,44 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
   dataRow: any[] = [];
   isLoading: boolean = false;
 
+  prisons: any[] = [];
+  companies: any[] = [];
+
+  selectedPrison: number | null = null;
+  selectedCompany: number | null = null;
+
   ngOnInit() {
 
+    this._Billservice.getprisons().subscribe({
+      next: (prisons) => {
+        this.prisons = prisons;
+      },
+      error: (err) => {
+        console.error('Error fetching units:', err);
+      },
+    });
+
+    this._Billservice.getcompanies().subscribe({
+      next: (companies) => {
+        this.companies = companies;
+      },
+      error: (err) => {
+        console.error('Error fetching units:', err);
+      },
+    });
     this.loadTable();
   }
+
+  onPrisonSelect(event: any): void {
+    this.selectedPrison = event.value;
+    this.rerender();
+  }
+  
+  onCompanySelect(event: any): void {
+    this.selectedCompany = event.value;
+    this.rerender();
+  }
+
   ngAfterViewInit(): void {
     this.dtTrigger.next(null);
   }
@@ -123,8 +161,13 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
         url: this.languageUrl,
       },
       ajax: (dataTablesParameters: any, callback) => {
+        const customParameters = {
+          ...dataTablesParameters,
+          prison_id: this.selectedPrison,
+          company_id: this.selectedCompany
+        };
         that._Billservice
-          .getPage(dataTablesParameters)
+          .getPage(customParameters)
           .subscribe((resp: any) => {
             this.dataRow = resp.data;
             this.pages.current_page = resp.current_page;
@@ -147,5 +190,16 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
       }
     };
 
+  }
+
+  rerender(): void {
+    if (this.dtElement.dtInstance) {
+      this.dtElement.dtInstance.then((dtInstance) => {
+        dtInstance.ajax.reload();
+      });
+    } else {
+      // If DataTables instance is not ready, reinitialize
+      this.dtTrigger.next(null);
+    }
   }
 }

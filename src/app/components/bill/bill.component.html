@@ -20,6 +20,29 @@
                     </button>
                 </div>
             </div>
+    
+            <div class="mt-4 flex flex-col sm:flex-row gap-4">
+                <mat-form-field class="w-full sm:w-1/2">
+                    <mat-label>เลือกเรือนจำ</mat-label>
+                    <mat-select [(ngModel)]="selectedPrison" (selectionChange)="onPrisonSelect($event)" class="w-full">
+                        <mat-option [value]="null">ทั้งหมด</mat-option>
+                        <mat-option *ngFor="let prison of prisons" [value]="prison.id">
+                            {{prison.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+    
+                <mat-form-field class="w-full sm:w-1/2">
+                    <mat-label>เลือกบริษัท</mat-label>
+                    <mat-select [(ngModel)]="selectedCompany" (selectionChange)="onCompanySelect($event)"
+                        class="w-full">
+                        <mat-option [value]="null">ทั้งหมด</mat-option>
+                        <mat-option *ngFor="let company of companies" [value]="company.id">
+                            {{company.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
     </div>
 
@@ -66,7 +89,8 @@
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_expense || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_total || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">
-                                <button mat-button class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"
+                                <button mat-button
+                                    class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"
                                     (click)="showPicture()">
                                     <mat-icon>file_download</mat-icon>
                                 </button>
