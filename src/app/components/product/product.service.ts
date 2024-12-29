@@ -68,6 +68,16 @@ getproductById(id:number): Observable<Product> {
   );
 }
 
+getlist(): Observable<any[]> {
+  return this._httpClient.get<any[]>(
+    environment.baseURL + '/api/get_product'
+  ).pipe(
+    switchMap((response: any) => {
+      return of(response.data);
+    })
+  );
+}
+
   uploadImg(img: FormData): Observable<any> {
     return this._httpClient
       .post(
