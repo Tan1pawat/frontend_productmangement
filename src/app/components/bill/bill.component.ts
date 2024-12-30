@@ -11,6 +11,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { BillOrderFormComponent } from './bill-order-form/bill-order-form.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-bill',
@@ -99,9 +100,7 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.rerender();
-      }
+      this.rerender();
     });
   }
 
@@ -122,26 +121,26 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   
     delete(itemid: any): void {
-      // const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      //   width: '400px',
-      //   data: {
-      //     title: 'ลบข้อมูล',
-      //     message: 'คุณต้องการลบข้อมูลไหม?',
-      //   },
-      // });
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        width: '400px',
+        data: {
+          title: 'ลบข้อมูล',
+          message: 'คุณต้องการลบข้อมูลไหม?',
+        },
+      });
     
-      // dialogRef.afterClosed().subscribe((result) => {
-      //   if (result === 'confirmed') {
-      //     this._Productservice.delete(itemid).subscribe({
-      //       next: () => {
-      //         this.rerender();
-      //       },
-      //       error: (err: any) => {
-      //         console.error('Error deleting item:', err);
-      //       },
-      //     });
-      //   }
-      // });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'confirmed') {
+          this._Billservice.delete(itemid).subscribe({
+            next: () => {
+              this.rerender();
+            },
+            error: (err: any) => {
+              console.error('Error deleting item:', err);
+            },
+          });
+        }
+      });
     }
   
     showPicture(): void {

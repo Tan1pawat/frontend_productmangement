@@ -61,7 +61,7 @@
     font-size: 1.25rem;
     font-weight: 500;
     margin-bottom: 0.5rem;
-    padding-right: 2.5rem; // Make space for close button
+    padding-right: 2.5rem;
   }
 }
 
@@ -73,18 +73,44 @@
   .full-width {
     flex: 1;
   }
+
+  .date-picker-field {
+    width: auto;
+    min-width: 200px;
+    
+    ::ng-deep {
+      .mat-mdc-text-field-wrapper {
+        padding-right: 0;
+      }
+      
+      .mat-mdc-form-field-infix {
+        width: auto;
+        min-width: 120px;
+      }
+      
+      .mat-datepicker-toggle {
+        position: relative;
+        right: 0;
+      }
+    }
+  }
 }
 
 .bill-orders-section {
-  background: #f8f9fa;
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1.25rem;
   margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 
   h3 {
-    color: #1976d2;
-    margin-bottom: 0.75rem;
+    color: #0d47a1;
+    margin-bottom: 1rem;
     font-size: 1.1rem;
+    font-weight: 500;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e3f2fd;
   }
 }
 
@@ -92,19 +118,21 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .bill-order-item {
-  background: white;
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 1.25rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   width: 100%;
   
   h4 {
-    color: #1976d2;
-    margin-bottom: 0.75rem;
-    font-size: 0.95rem;
+    color: #0d47a1;
+    margin-bottom: 1rem;
+    font-size: 1rem;
     font-weight: 500;
     display: flex;
     justify-content: space-between;
@@ -115,10 +143,34 @@
     display: flex;
     gap: 0.75rem;
     margin-bottom: 0.75rem;
+    flex-wrap: wrap;
 
     .mat-form-field {
-      flex: 1;
+      flex: 1 1 200px;
+      min-width: 200px;
+      
+      ::ng-deep .mat-select-value {
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
+
+    // Product field (ชนิดสินค้า)
+    .mat-form-field:first-child {
+      flex: 2 1 300px;
+      min-width: 300px;
+    }
+
+    // Number input fields
+    .mat-form-field:not(:first-child) {
+      flex: 1 1 150px;
+      min-width: 150px;
+    }
+  }
+  
+  .remove-button {
+    width: auto;
   }
 }
 
@@ -133,47 +185,6 @@
   
   button {
     color: #1976d2;
-  }
-}
-
-// ... rest of your existing styles remain the same
-
-.bill-order-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.bill-order-item {
-  background: white;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  
-  h4 {
-    color: #1976d2;
-    margin-bottom: 0.75rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .fields-row {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-
-    .mat-form-field {
-      flex: 1;
-    }
-  }
-  
-  .remove-button {
-    width: auto;
   }
 }
 
@@ -209,9 +220,9 @@
   width: 100%;
 }
 
-// Reduce Material form field spacing
+// Material form field adjustments for non-datepicker fields
 ::ng-deep {
-  .mat-mdc-form-field {
+  .mat-mdc-form-field:not(.date-picker-field) {
     .mat-mdc-text-field-wrapper {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
@@ -219,6 +230,17 @@
     
     .mat-mdc-form-field-subscript-wrapper {
       height: 0.5rem;
+    }
+
+    .mat-mdc-form-field-label {
+      white-space: nowrap;
+      width: auto;
+      overflow: visible;
+    }
+    
+    .mat-mdc-form-field-infix {
+      width: auto;
+      min-width: 100%;
     }
   }
 }
