@@ -57,12 +57,12 @@
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">เรือนจำ</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ห้างหุ้นส่วน</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">รหัสบิล</th>
-                            <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ประเภทบิล</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">วันที่</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ผลรวมรายได้</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ผลรวมร่ายจ่าย</th>
                             <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ยอดคงเหลือ</th>
-                            <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">export excel</th>
+                            <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ใบส่งสินค้า</th>
+                            <th class="px-6 py-4 text-center text-sm font-medium text-gray-700">ใบเสร็จรับเงิน</th>
                         </tr>
                     </thead>
                     <tbody *ngIf="dataRow?.length != 0" class="divide-y divide-gray-200 mx-3">
@@ -83,11 +83,17 @@
                             <td class="px-6 py-4 text-center align-middle">{{ item.prison_name || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.company_name || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.code || "-" }}</td>
-                            <td class="px-6 py-4 text-center align-middle">{{ item.bill_type_name || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle w-20">{{ item.date || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_income || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_expense || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_total || "-" }}</td>
+                            <td class="px-6 py-4 text-center align-middle">
+                                <button mat-button
+                                    class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"
+                                    (click)="showPicture()">
+                                    <mat-icon>file_download</mat-icon>
+                                </button>
+                            </td>
                             <td class="px-6 py-4 text-center align-middle">
                                 <button mat-button
                                     class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"

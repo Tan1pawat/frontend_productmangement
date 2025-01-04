@@ -49,7 +49,6 @@ export class BillOrderFormComponent implements OnInit {
     this.form = this.fb.group({
       prison_id: [null, Validators.required],
       company_id: [null, Validators.required],
-      bill_type: [1, Validators.required],
       date: [new Date(), Validators.required], // Changed to use Date object directly
       bill_order: this.fb.array([]),
     });
