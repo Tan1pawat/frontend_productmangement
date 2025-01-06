@@ -147,6 +147,14 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
 
     }
 
+    downloadinvoice(billId: number): void {
+      this._Billservice.downloadFile(billId, 'export_bill');
+    }
+
+    downloadorder(billId: number): void {
+      this._Billservice.downloadFile(billId, 'export_order');
+    }
+
   pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
 
   loadTable(): void {

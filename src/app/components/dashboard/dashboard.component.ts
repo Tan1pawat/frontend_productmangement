@@ -1,94 +1,169 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { FormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NgxChartsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgxChartsModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatCardModule,
+  ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
-  view: [number, number] = [700, 400];
+  isYearlyView = true;
+  selectedYear = '2024'; // Default year
+  selectedMonth = 'Jan'; // Default month
+  years = ['2021', '2022', '2023', '2024'];
+  months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+  ];
 
-  // Color scheme
-  colorScheme = {
-    domain: ['#4CAF50', '#F44336', '#2196F3', '#9C27B0', '#FF9800']
+  barChartData: any[] = [];
+  pieChartData: any[] = [];
+
+  // Mock data for simplicity
+  private yearlyData = {
+    income: [58000, 62000, 65000, 70000],
+    expenses: [48000, 51000, 53000, 56000],
+    expenseCategories: {
+      Housing: 18000,
+      Transportation: 9600,
+      Food: 7200,
+      Utilities: 4800,
+      Entertainment: 3600,
+      Others: 10800,
+    },
   };
 
-  // Financial data
-  financialData = [
-    {
-      name: 'January',
-      series: [
-        { name: 'Income', value: 50000 },
-        { name: 'Expense', value: 30000 }
-      ]
+  private monthlyData: Record<string, {
+    income: number[];
+    expenses: number[];
+    expenseCategories: {
+      Housing: number;
+      Transportation: number;
+      Food: number;
+      Utilities: number;
+      Entertainment: number;
+      Others: number;
+    };
+  }> = {
+    '2024': {
+      income: [4500, 5200, 4800, 5100, 4900, 5300, 5400, 5200, 5100, 5600, 5400, 5800],
+      expenses: [3800, 4100, 3900, 4200, 4000, 4300, 4100, 4200, 4300, 4400, 4200, 4500],
+      expenseCategories: {
+        Housing: 1500,
+        Transportation: 800,
+        Food: 600,
+        Utilities: 400,
+        Entertainment: 300,
+        Others: 900,
+      },
     },
-    {
-      name: 'February',
-      series: [
-        { name: 'Income', value: 55000 },
-        { name: 'Expense', value: 32000 }
-      ]
-    },
-    {
-      name: 'March',
-      series: [
-        { name: 'Income', value: 60000 },
-        { name: 'Expense', value: 35000 }
-      ]
-    },
-    {
-      name: 'April',
-      series: [
-        { name: 'Income', value: 58000 },
-        { name: 'Expense', value: 33000 }
-      ]
-    },
-    {
-      name: 'May',
-      series: [
-        { name: 'Income', value: 65000 },
-        { name: 'Expense', value: 38000 }
-      ]
+  };
+
+  ngOnInit() {
+    this.updateChartData();
+  }
+
+  onViewChange() {
+    this.updateChartData();
+    this.isYearlyView = false;
+  }
+
+  updateChartData() {
+    if (this.isYearlyView) {
+      this.updateYearlyData();
+    } else {
+      this.updateMonthlyData();
     }
-  ];
+  }
 
-  // Stock data
-  stockData = [
-    { name: 'Product A', value: 150 },
-    { name: 'Product B', value: 200 },
-    { name: 'Product C', value: 80 },
-    { name: 'Product D', value: 120 }
-  ];
+  updateYearlyData() {
+    const yearIndex = this.years.indexOf(this.selectedYear);
+    if (yearIndex >= 0) {
+      const data = this.yearlyData;
 
-  // Sales trend data
-  salesTrendData = [
-    {
-      name: 'Product A',
-      series: [
-        { name: 'Jan', value: 45 },
-        { name: 'Feb', value: 52 },
-        { name: 'Mar', value: 48 },
-        { name: 'Apr', value: 60 },
-        { name: 'May', value: 55 }
-      ]
-    },
-    {
-      name: 'Product B',
-      series: [
-        { name: 'Jan', value: 30 },
-        { name: 'Feb', value: 35 },
-        { name: 'Mar', value: 42 },
-        { name: 'Apr', value: 45 },
-        { name: 'May', value: 48 }
-      ]
+      // Update bar chart
+      this.barChartData = [
+        {
+          name: this.selectedYear,
+          series: [
+            { name: 'Income', value: data.income[yearIndex] },
+            { name: 'Expenses', value: data.expenses[yearIndex] },
+          ],
+        },
+      ];
+
+      // Update pie chart
+      this.pieChartData = Object.entries(data.expenseCategories).map(([name, value]) => ({
+        name,
+        value,
+      }));
     }
-  ];
+  }
 
-  onSelect(event: any) {
-    console.log('Item clicked', event);
+  updateMonthlyData() {
+    const yearData = this.monthlyData[this.selectedYear];
+    if (!yearData) {
+      console.error(`No data available for year: ${this.selectedYear}`);
+      return;
+    }
+  
+    const monthIndex = this.months.indexOf(this.selectedMonth);
+    if (monthIndex >= 0) {
+      const income = yearData.income[monthIndex];
+      const expenses = yearData.expenses[monthIndex];
+  
+      // Update bar chart
+      this.barChartData = [
+        {
+          name: this.selectedMonth,
+          series: [
+            { name: 'Income', value: income },
+            { name: 'Expenses', value: expenses },
+          ],
+        },
+      ];
+  
+      // Update pie chart
+      this.pieChartData = Object.entries(yearData.expenseCategories).map(([name, value]) => ({
+        name,
+        value,
+      }));
+    }
+  }
+
+  getTotalIncome(): number {
+    if (this.isYearlyView) {
+      const index = this.years.indexOf(this.selectedYear);
+      return this.yearlyData.income[index] || 0;
+    } else {
+      const data = this.monthlyData[this.selectedYear];
+      const index = this.months.indexOf(this.selectedMonth);
+      return data?.income[index] || 0;
+    }
+  }
+
+  getTotalExpenses(): number {
+    if (this.isYearlyView) {
+      const index = this.years.indexOf(this.selectedYear);
+      return this.yearlyData.expenses[index] || 0;
+    } else {
+      const data = this.monthlyData[this.selectedYear];
+      const index = this.months.indexOf(this.selectedMonth);
+      return data?.expenses[index] || 0;
+    }
   }
 }

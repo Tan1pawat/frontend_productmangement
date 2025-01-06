@@ -1,25 +1,106 @@
 .dashboard-container {
-    padding: 20px;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  }
+  padding: 24px;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
 
-  .card {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.toggle-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 20px;
+
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
   }
 
   h2 {
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
+    color: #64748b;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 8px;
   }
 
-  ::ng-deep {
-    .ngx-charts {
-      float: none;
+  .amount {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 12px 0;
+    
+    &.positive {
+      color: #0ea5e9;
+    }
+    
+    &.negative {
+      color: #ef4444;
     }
   }
+}
+
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+  gap: 24px;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+  h2 {
+    color: #1e293b;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+}
+
+// Custom styling for Material components
+// ::ng-deep {
+//   .mat-form-field-appearance-fill .mat-form-field-flex {
+//     background-color: #f8fafc;
+//     border-radius: 8px;
+//   }
+
+//   .mat-form-field-appearance-fill .mat-form-field-underline::before {
+//     background-color: transparent;
+//   }
+
+//   .mat-select-panel {
+//     border-radius: 8px !important;
+//     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+//   }
+
+//   .ngx-charts {
+//     float: none;
+//     display: block;
+//   }
+
+//   // Update chart colors to blue theme
+//   .ngx-charts .bar-chart .bar {
+//     &.active, &:hover {
+//       opacity: 0.8;
+//       transition: opacity 100ms ease-in-out;
+//     }
+//   }
+// }
