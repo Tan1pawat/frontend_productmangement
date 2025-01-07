@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BillService } from '../bill.service';
 import { ProductService } from '../../product/product.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-bill-order-form-edit',
@@ -23,7 +24,9 @@ import { ProductService } from '../../product/product.service';
         MatButtonModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatIcon
+        MatIcon,
+        MatProgressSpinnerModule
+        
   ],
   templateUrl: './bill-order-form-edit.component.html',
   styleUrl: './bill-order-form-edit.component.scss'
@@ -36,7 +39,7 @@ export class BillOrderFormEditComponent implements OnInit {
     companies: any[] = [];
     products: any[] = [];
     selectedProductIds: Set<number> = new Set<number>();
-    isLoading = false;
+    isLoading = true;
   
     constructor(
       private fb: FormBuilder,
@@ -79,7 +82,6 @@ export class BillOrderFormEditComponent implements OnInit {
 
       this._Billservice.getall(this.data.id).subscribe({
         next: (bill) => {
-          console.log('Fetched bill:', bill);
 
           // Patch the main form values
           this.form.patchValue({
@@ -106,6 +108,7 @@ export class BillOrderFormEditComponent implements OnInit {
           });
     
           this.updateSelectedProducts();
+          this.isLoading = false; // Stop loading
           
         },
         error: (err) => {
@@ -197,8 +200,10 @@ export class BillOrderFormEditComponent implements OnInit {
           ...formValue,
           date: thaiDate
         };
+
+        
   
-        this._Billservice.created(formData).subscribe({
+        this._Billservice.updated(formData,this.data.id).subscribe({
           next: (response) => {
             console.log('Bill created successfully', response);
           },

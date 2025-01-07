@@ -1,114 +1,120 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-    <button mat-icon-button class="close-button" (click)="onClose()">
-        <mat-icon color="warn">close</mat-icon>
-    </button>
+<div *ngIf="isLoading" class="loading-overlay">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoading">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+        <button mat-icon-button class="close-button" (click)="onClose()">
+            <mat-icon color="warn">close</mat-icon>
+        </button>
 
-    <div class="header-section">
-        <h2>สร้างรายการสินค้า</h2>
-    </div>
-
-    <div class="scrollable-content">
-        <div class="form-row">
-            <mat-form-field class="full-width">
-                <mat-label>เรือนจำ</mat-label>
-                <mat-select formControlName="prison_id">
-                    <mat-option *ngFor="let prison of prisons" [value]="prison.id">{{ prison.name }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="full-width">
-                <mat-label>บริษัท</mat-label>
-                <mat-select formControlName="company_id">
-                    <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.name }}</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div class="header-section">
+            <h2>สร้างรายการสินค้า</h2>
         </div>
 
-        <div class="form-row">
+        <div class="scrollable-content">
+            <div class="form-row">
+                <mat-form-field class="full-width">
+                    <mat-label>เรือนจำ</mat-label>
+                    <mat-select formControlName="prison_id">
+                        <mat-option *ngFor="let prison of prisons" [value]="prison.id">{{ prison.name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-            <mat-form-field class="date-picker-field">
-                <mat-label>วันที่</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
+                <mat-form-field class="full-width">
+                    <mat-label>บริษัท</mat-label>
+                    <mat-select formControlName="company_id">
+                        <mat-option *ngFor="let company of companies" [value]="company.id">{{ company.name
+                            }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-        <div class="bill-orders-section">
-            <h3>รายการสินค้า</h3>
-            <div formArrayName="bill_order" class="bill-order-container">
-                <div *ngFor="let order of billOrder.controls; let i = index" [formGroupName]="i"
-                    class="bill-order-item">
-                    <h4>
-                        รายการสินค้าที่ {{ i + 1 }}
-                        <button mat-icon-button color="warn" type="button" (click)="removeBillOrder(i)"
-                            class="remove-button">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </h4>
+            <div class="form-row">
 
-                    <div class="fields-row">
-                        <mat-form-field class="w-full">
-                            <mat-label>ชนิดสินค้า</mat-label>
-                            <mat-select formControlName="product_id">
-                                <mat-option *ngFor="let product of products" [value]="product.id"
-                                    [disabled]="isProductDisabled(product.id)">
-                                    {{ product.name_unit}}
-                                </mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="billOrder.get('product_id')?.hasError('required')">
-                                กรุณาเลือกชนิดสินค้า
-                            </mat-error>
-                        </mat-form-field>
+                <mat-form-field class="date-picker-field">
+                    <mat-label>วันที่</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
 
-                        <mat-form-field>
-                            <mat-label>ราคาซื้อ</mat-label>
-                            <input matInput type="number" formControlName="buy_price" />
-                        </mat-form-field>
+            <div class="bill-orders-section">
+                <h3>รายการสินค้า</h3>
+                <div formArrayName="bill_order" class="bill-order-container">
+                    <div *ngFor="let order of billOrder.controls; let i = index" [formGroupName]="i"
+                        class="bill-order-item">
+                        <h4>
+                            รายการสินค้าที่ {{ i + 1 }}
+                            <button mat-icon-button color="warn" type="button" (click)="removeBillOrder(i)"
+                                class="remove-button">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </h4>
 
-                        <mat-form-field>
-                            <mat-label>จำนวนที่มี</mat-label>
-                            <input matInput type="number" formControlName="quantity" />
-                        </mat-form-field>
+                        <div class="fields-row">
+                            <mat-form-field class="w-full">
+                                <mat-label>ชนิดสินค้า</mat-label>
+                                <mat-select formControlName="product_id">
+                                    <mat-option *ngFor="let product of products" [value]="product.id"
+                                        [disabled]="isProductDisabled(product.id)">
+                                        {{ product.name_unit}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="billOrder.get('product_id')?.hasError('required')">
+                                    กรุณาเลือกชนิดสินค้า
+                                </mat-error>
+                            </mat-form-field>
 
-                        <mat-form-field>
-                            <mat-label>ราคาขาย</mat-label>
-                            <input matInput type="number" formControlName="price" />
-                            <mat-error *ngIf="billOrder.at(i).get('price')?.hasError('min')">
-                                ราคาขายมากว่า 0
-                            </mat-error>
-                            <mat-error *ngIf="billOrder.at(i).get('price')?.hasError('required')">
-                                กรุณากรอกราคาขาย
-                            </mat-error>
-                        </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>ราคาซื้อ</mat-label>
+                                <input matInput type="number" formControlName="buy_price" />
+                            </mat-form-field>
 
-                        <mat-form-field>
-                            <mat-label>จำนวนที่ขาย</mat-label>
-                            <input matInput type="number" formControlName="value" />
-                            <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('max')">
-                                จำนวนที่ขายต้องไม่เกิน {{ billOrder.at(i).get('quantity')?.value }}
-                            </mat-error>
-                            <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('min')">
-                                จำนวนที่ขายมากว่า 0
-                            </mat-error>
-                            <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('required')">
-                                กรุณากรอกจำนวนที่ขาย
-                            </mat-error>
-                        </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>จำนวนที่มี</mat-label>
+                                <input matInput type="number" formControlName="quantity" />
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>ราคาขาย</mat-label>
+                                <input matInput type="number" formControlName="price" />
+                                <mat-error *ngIf="billOrder.at(i).get('price')?.hasError('min')">
+                                    ราคาขายมากว่า 0
+                                </mat-error>
+                                <mat-error *ngIf="billOrder.at(i).get('price')?.hasError('required')">
+                                    กรุณากรอกราคาขาย
+                                </mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>จำนวนที่ขาย</mat-label>
+                                <input matInput type="number" formControlName="value" />
+                                <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('max')">
+                                    จำนวนที่ขายต้องไม่เกิน {{ billOrder.at(i).get('quantity')?.value }}
+                                </mat-error>
+                                <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('min')">
+                                    จำนวนที่ขายมากว่า 0
+                                </mat-error>
+                                <mat-error *ngIf="billOrder.at(i).get('value')?.hasError('required')">
+                                    กรุณากรอกจำนวนที่ขาย
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-                <div class="add-button-container">
-                    <button mat-icon-button (click)="addBillOrder()" type="button">
-                        <mat-icon>add_circle</mat-icon>
-                    </button>
+                    <div class="add-button-container">
+                        <button mat-icon-button (click)="addBillOrder()" type="button">
+                            <mat-icon>add_circle</mat-icon>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="actions">
-        <button mat-raised-button color="primary" type="submit">
-            บันทึก
-        </button>
-    </div>
-</form>
+        <div class="actions">
+            <button mat-raised-button color="primary" type="submit">
+                บันทึก
+            </button>
+        </div>
+    </form>
+</div>

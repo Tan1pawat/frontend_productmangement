@@ -42,6 +42,21 @@ export class BillService {
     );
   }
 
+  updated(data:any,id:number): Observable<any> {
+    return this._httpClient
+    .post(
+      environment.baseURL + '/api/update_bill/'+id,
+      data
+    )
+    .pipe(
+      switchMap((response: any) => {
+        console.log(response);
+
+        return of(response.data);
+      })
+    );
+  }
+
   delete(id: number): Observable<any> {
     return this._httpClient
         .delete<any>(environment.baseURL + '/api/bill/'+id)
