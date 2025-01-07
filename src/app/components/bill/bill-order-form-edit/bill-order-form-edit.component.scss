@@ -1,0 +1,246 @@
+:host {
+    display: block;
+    height: 100%;
+    max-height: 90vh;
+    background-color: #f8f9fa;
+  }
+  
+  .form-container {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    position: relative;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+  }
+  
+  .scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 1rem;
+    
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+      
+      &:hover {
+        background: #666;
+      }
+    }
+  }
+  
+  .header-section {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    
+    h2 {
+      color: #1976d2;
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    
+    .full-width {
+      flex: 1;
+    }
+  
+    .date-picker-field {
+      width: auto;
+      min-width: 200px;
+      
+      ::ng-deep {
+        .mat-mdc-text-field-wrapper {
+          padding-right: 0;
+        }
+        
+        .mat-mdc-form-field-infix {
+          width: auto;
+          min-width: 120px;
+        }
+        
+        .mat-datepicker-toggle {
+          position: relative;
+          right: 0;
+        }
+      }
+    }
+  }
+  
+  .bill-orders-section {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  
+    h3 {
+      color: #0d47a1;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e3f2fd;
+    }
+  }
+  
+  .bill-order-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .bill-order-item {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    
+    h4 {
+      color: #0d47a1;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .fields-row {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+  
+      .mat-form-field {
+        flex: 1 1 200px;
+        min-width: 200px;
+        
+        ::ng-deep .mat-select-value {
+          max-width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+      }
+  
+      // Product field (ชนิดสินค้า)
+      .mat-form-field:first-child {
+        flex: 2 1 300px;
+        min-width: 300px;
+      }
+  
+      // Number input fields
+      .mat-form-field:not(:first-child) {
+        flex: 1 1 150px;
+        min-width: 150px;
+      }
+    }
+    
+    .remove-button {
+      width: auto;
+    }
+  }
+  
+  .add-button-container {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 8px;
+    border: 2px dashed #1976d2;
+    margin-top: 0.5rem;
+    
+    button {
+      color: #1976d2;
+    }
+  }
+  
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: white;
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    border-top: 1px solid #eee;
+    
+    button {
+      flex: 1;
+      padding: 0.5rem;
+      
+      &[color="primary"] {
+        background-color: #1976d2;
+      }
+      
+      &[color="warn"] {
+        background-color: #dc3545;
+      }
+      
+      &[color="accent"] {
+        background-color: #f44336;
+      }
+    }
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+  
+  // Material form field adjustments for non-datepicker fields
+  ::ng-deep {
+    .mat-mdc-form-field:not(.date-picker-field) {
+      .mat-mdc-text-field-wrapper {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      .mat-mdc-form-field-subscript-wrapper {
+        height: 0.5rem;
+      }
+  
+      .mat-mdc-form-field-label {
+        white-space: nowrap;
+        width: auto;
+        overflow: visible;
+      }
+      
+      .mat-mdc-form-field-infix {
+        width: auto;
+        min-width: 100%;
+      }
+    }
+  }

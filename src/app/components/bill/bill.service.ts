@@ -52,6 +52,16 @@ export class BillService {
         );
   }
 
+  getall(id:number): Observable<any> {
+    return this._httpClient.get<any[]>(
+      environment.baseURL + '/api/get_bill/'+id
+    ).pipe(
+      switchMap((response: any) => {
+        return of(response.data);
+      })
+    );
+  }
+
   getprisons(): Observable<any[]> {
     return this._httpClient.get<any[]>(
       environment.baseURL + '/api/get_prison'

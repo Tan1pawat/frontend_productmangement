@@ -74,33 +74,3 @@
     margin-bottom: 20px;
   }
 }
-
-// Custom styling for Material components
-// ::ng-deep {
-//   .mat-form-field-appearance-fill .mat-form-field-flex {
-//     background-color: #f8fafc;
-//     border-radius: 8px;
-//   }
-
-//   .mat-form-field-appearance-fill .mat-form-field-underline::before {
-//     background-color: transparent;
-//   }
-
-//   .mat-select-panel {
-//     border-radius: 8px !important;
-//     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
-//   }
-
-//   .ngx-charts {
-//     float: none;
-//     display: block;
-//   }
-
-//   // Update chart colors to blue theme
-//   .ngx-charts .bar-chart .bar {
-//     &.active, &:hover {
-//       opacity: 0.8;
-//       transition: opacity 100ms ease-in-out;
-//     }
-//   }
-// }

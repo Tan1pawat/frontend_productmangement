@@ -12,6 +12,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { BillOrderFormComponent } from './bill-order-form/bill-order-form.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { BillOrderFormEditComponent } from './bill-order-form-edit/bill-order-form-edit.component';
 
 @Component({
   selector: 'app-bill',
@@ -105,19 +106,17 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
     editElement(id: number) {
-      // const dialogRef = this.dialog.open(ProductFormEditComponent, {
-      //   width: '800px',
-      //   height: 'auto',
-      //   data: { id: id },
-      //   disableClose: true,
+      const dialogRef = this.dialog.open(BillOrderFormEditComponent, {
+        width: '800px',
+        height: 'auto',
+        data: { id: id },
+        disableClose: true,
   
-      // });
+      });
   
-      // dialogRef.afterClosed().subscribe(result => {
-      //   if (result) {
-      //     this.rerender();
-      //   }
-      // });
+      dialogRef.afterClosed().subscribe(result => {
+        this.rerender();
+      });
     }
   
     delete(itemid: any): void {
@@ -201,13 +200,8 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   rerender(): void {
-    if (this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance) => {
         dtInstance.ajax.reload();
       });
-    } else {
-      // If DataTables instance is not ready, reinitialize
-      this.dtTrigger.next(null);
-    }
   }
 }
