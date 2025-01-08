@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   isYearlyView = true;
   selectedYear = '2568'; // Default year
   selectedMonth = 'มกราคม'; // Default month
@@ -32,48 +33,34 @@ export class DashboardComponent {
   barChartData: any[] = [];
   pieChartData: any[] = [];
 
-  // Mock data for simplicity
-  private yearlyData = {
-    income: [58000, 62000, 65000, 70000],
-    expenses: [48000, 51000, 53000, 56000],
-    expenseCategories: {
-      Housing: 18000,
-      Transportation: 9600,
-      Food: 7200,
-      Utilities: 4800,
-      Entertainment: 3600,
-      Others: 10800,
-    },
-  };
+  yearlyData: Record<string, any> = {};
+  monthlyData: Record<string, any> = {};
 
-  private monthlyData: Record<string, {
-    income: number[];
-    expenses: number[];
-    expenseCategories: {
-      Housing: number;
-      Transportation: number;
-      Food: number;
-      Utilities: number;
-      Entertainment: number;
-      Others: number;
-    };
-  }> = {
-    '2568': {
-      income: [4500, 5200, 4800, 5100, 4900, 5300, 5400, 5200, 5100, 5600, 5400, 5800],
-      expenses: [3800, 4100, 3900, 4200, 4000, 4300, 4100, 4200, 4300, 4400, 4200, 4500],
-      expenseCategories: {
-        Housing: 1500,
-        Transportation: 800,
-        Food: 600,
-        Utilities: 400,
-        Entertainment: 300,
-        Others: 900,
-      },
-    },
-  };
+  constructor(private _DashboardService: DashboardService) {}
 
   ngOnInit() {
+    this._DashboardService.getdashboard(this.years).subscribe({
+      next: (response: any) => {
+          this.processDashboardData(response);
+          this.updateChartData();
+      },
+      error: (err) => {
+        console.error('Error fetching Dashboard data:', err);
+      },
+    });
+  }
+
+  onViewToggle() {
     this.updateChartData();
+  }
+  processDashboardData(data: any) {
+    if (data.yearlyData) {
+      this.yearlyData = data.yearlyData;
+    }
+
+    if (data.monthlyData) {
+      this.monthlyData = data.monthlyData;
+    }
   }
 
   onViewChange() {
@@ -90,79 +77,87 @@ export class DashboardComponent {
   }
 
   updateYearlyData() {
-    const yearIndex = this.years.indexOf(this.selectedYear);
-    if (yearIndex >= 0) {
-      const data = this.yearlyData;
+    const yearData = this.yearlyData[this.selectedYear];
+    if (yearData) {
+      const income = yearData.income.reduce((sum: number, val: any) => sum + parseFloat(val || 0), 0);
+      const expenses = yearData.expenses.reduce((sum: number, val: any) => sum + parseFloat(val || 0), 0);
 
       // Update bar chart
       this.barChartData = [
         {
           name: this.selectedYear,
           series: [
-            { name: 'รายจ่าย', value: data.expenses[yearIndex] },
-            { name: 'รายได้', value: data.income[yearIndex] },
+            { name: 'รายจ่าย', value: expenses },
+            { name: 'รายได้', value: income },
           ],
         },
       ];
 
       // Update pie chart
-      this.pieChartData = Object.entries(data.expenseCategories).map(([name, value]) => ({
+      this.pieChartData = Object.entries(yearData.expenseCategories || {}).map(([name, value]) => ({
         name,
         value,
       }));
+    }else{
+      this.barChartData = [];
+      this.pieChartData = [];
     }
   }
 
   updateMonthlyData() {
-    const yearData = this.monthlyData[this.selectedYear];
-    if (!yearData) {
-      console.error(`No data available for year: ${this.selectedYear}`);
-      return;
-    }
-  
-    const monthIndex = this.months.indexOf(this.selectedMonth);
-    if (monthIndex >= 0) {
-      const income = yearData.income[monthIndex];
-      const expenses = yearData.expenses[monthIndex];
-  
+    const monthKey = `${this.selectedYear}-${this.getMonthKey()}`;
+    const monthData = this.monthlyData[monthKey];
+
+    if (monthData) {
+      const income = parseFloat(monthData.income[0] || 0);
+      const expenses = parseFloat(monthData.expenses[0] || 0);
+
       // Update bar chart
       this.barChartData = [
         {
           name: this.selectedMonth,
           series: [
-            { name: 'Income', value: income },
-            { name: 'Expenses', value: expenses },
+            { name: 'รายจ่าย', value: expenses },
+            { name: 'รายได้', value: income },
           ],
         },
       ];
-  
+
       // Update pie chart
-      this.pieChartData = Object.entries(yearData.expenseCategories).map(([name, value]) => ({
+      this.pieChartData = Object.entries(monthData.expenseCategories || {}).map(([name, value]) => ({
         name,
         value,
       }));
+    } else {
+      this.barChartData = [];
+      this.pieChartData = [];
     }
   }
 
   getTotalIncome(): number {
     if (this.isYearlyView) {
-      const index = this.years.indexOf(this.selectedYear);
-      return this.yearlyData.income[index] || 0;
+      const yearData = this.yearlyData[this.selectedYear];
+      return yearData ? yearData.income.reduce((sum: number, val: any) => sum + parseFloat(val || 0), 0) : 0;
     } else {
-      const data = this.monthlyData[this.selectedYear];
-      const index = this.months.indexOf(this.selectedMonth);
-      return data?.income[index] || 0;
+      const monthKey = `${this.selectedYear}-${this.getMonthKey()}`;
+      const monthData = this.monthlyData[monthKey];
+      return monthData ? parseFloat(monthData.income[0] || 0) : 0;
     }
   }
 
   getTotalExpenses(): number {
     if (this.isYearlyView) {
-      const index = this.years.indexOf(this.selectedYear);
-      return this.yearlyData.expenses[index] || 0;
+      const yearData = this.yearlyData[this.selectedYear];
+      return yearData ? yearData.expenses.reduce((sum: number, val: any) => sum + parseFloat(val || 0), 0) : 0;
     } else {
-      const data = this.monthlyData[this.selectedYear];
-      const index = this.months.indexOf(this.selectedMonth);
-      return data?.expenses[index] || 0;
+      const monthKey = `${this.selectedYear}-${this.getMonthKey()}`;
+      const monthData = this.monthlyData[monthKey];
+      return monthData ? parseFloat(monthData.expenses[0] || 0) : 0;
     }
+  }
+
+  private getMonthKey(): string {
+    const monthIndex = this.months.indexOf(this.selectedMonth) + 1;
+    return monthIndex.toString().padStart(2, '0');
   }
 }
