@@ -22,12 +22,11 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class DashboardComponent {
   isYearlyView = true;
-  selectedYear = '2024'; // Default year
-  selectedMonth = 'Jan'; // Default month
-  years = ['2021', '2022', '2023', '2024'];
+  selectedYear = '2568'; // Default year
+  selectedMonth = 'มกราคม'; // Default month
+  years = ['2565', '2566', '2567', '2568', '2569'];
   months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
   ];
 
   barChartData: any[] = [];
@@ -59,7 +58,7 @@ export class DashboardComponent {
       Others: number;
     };
   }> = {
-    '2024': {
+    '2568': {
       income: [4500, 5200, 4800, 5100, 4900, 5300, 5400, 5200, 5100, 5600, 5400, 5800],
       expenses: [3800, 4100, 3900, 4200, 4000, 4300, 4100, 4200, 4300, 4400, 4200, 4500],
       expenseCategories: {
@@ -100,8 +99,8 @@ export class DashboardComponent {
         {
           name: this.selectedYear,
           series: [
-            { name: 'Income', value: data.income[yearIndex] },
-            { name: 'Expenses', value: data.expenses[yearIndex] },
+            { name: 'รายจ่าย', value: data.expenses[yearIndex] },
+            { name: 'รายได้', value: data.income[yearIndex] },
           ],
         },
       ];

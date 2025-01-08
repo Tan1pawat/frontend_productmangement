@@ -200,8 +200,13 @@ export class BillComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   rerender(): void {
+    if (this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance) => {
         dtInstance.ajax.reload();
       });
+    } else {
+      // If DataTables instance is not ready, reinitialize
+      this.dtTrigger.next(null);
+    }
   }
 }

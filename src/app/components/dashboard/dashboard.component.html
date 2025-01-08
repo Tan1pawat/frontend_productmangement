@@ -2,7 +2,7 @@
     <mat-card class="toggle-card">
         <div class="year-select">
             <mat-form-field appearance="fill">
-                <mat-label>Select Year</mat-label>
+                <mat-label>เลือกปี</mat-label>
                 <mat-select [(ngModel)]="selectedYear" (selectionChange)="onViewChange()">
                     <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
                 </mat-select>
@@ -10,7 +10,7 @@
         </div>
         <div *ngIf="!isYearlyView" class="month-select">
             <mat-form-field appearance="fill">
-                <mat-label>Select Month</mat-label>
+                <mat-label>เลือกเดือน</mat-label>
                 <mat-select [(ngModel)]="selectedMonth" (selectionChange)="onViewChange()">
                     <mat-option *ngFor="let month of months" [value]="month">{{ month }}</mat-option>
                 </mat-select>
@@ -20,18 +20,18 @@
 
     <div class="stats-container">
         <mat-card class="stat-card">
-            <h2>Total Income</h2>
-            <p class="amount positive">{{ getTotalIncome() | currency }}</p>
+            <h2>รายจ่ายทั้งหมด</h2>
+            <p class="amount negative">{{ getTotalExpenses() + " บาท"}}</p>
         </mat-card>
         <mat-card class="stat-card">
-            <h2>Total Expenses</h2>
-            <p class="amount negative">{{ getTotalExpenses() | currency }}</p>
+            <h2>รายได้ทั้งหมด</h2>
+            <p class="amount positive">{{ getTotalIncome() + " บาท" }}</p>
         </mat-card>
     </div>
 
     <div class="charts-container">
         <mat-card class="chart-card">
-            <h2>Income vs Expenses</h2>
+            <h2>รายจ่าย และ รายได้ </h2>
             <ngx-charts-bar-vertical-2d
                 [view]="[700, 400]"
                 [results]="barChartData"
@@ -51,7 +51,7 @@
         </mat-card>
 
         <mat-card class="chart-card">
-            <h2>Expense Distribution</h2>
+            <h2>สรุปยอดขายตามประเภทสินค้า</h2>
             <ngx-charts-pie-chart
                 [view]="[700, 400]"
                 [results]="pieChartData"

@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductService } from '../product.service';
 import { environment } from '../../../../environments/environment.development';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-form-edit',
   standalone: true,
@@ -20,7 +21,8 @@ import { environment } from '../../../../environments/environment.development';
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './form-edit.component.html',
   styleUrl: './form-edit.component.scss'
@@ -34,6 +36,7 @@ export class ProductFormEditComponent {
   // These would come from your service
   units: any[] = [];
   productTypes: any[] = [];
+  isLoading = true;
 
   constructor(
     private fb: FormBuilder,
@@ -55,6 +58,7 @@ export class ProductFormEditComponent {
 
           this.imagePreview = environment.baseURL + response.image;
         }
+        this.isLoading = false; // Stop loading
       },
       error: (error) => {
         console.error('Error fetching product:', error);
