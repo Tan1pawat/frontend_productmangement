@@ -9,6 +9,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIcon } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { BillOrderFormComponent } from './bill-order-form/bill-order-form.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
@@ -23,6 +24,7 @@ import { BillOrderFormEditComponent } from './bill-order-form-edit/bill-order-fo
     DataTablesModule,
     MatIcon,
     MatSelectModule,
+    MatTooltipModule,
     NgIf,
     NgFor
   ],

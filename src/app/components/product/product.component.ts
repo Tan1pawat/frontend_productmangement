@@ -62,12 +62,6 @@ export class ProductComponent implements AfterViewInit, OnDestroy, OnInit {
     });
   }
 
-  // excelExport() {
-  //   window.open(
-  //     'https://laongherbalgroup.com/api/public/api/export_product/1'
-  //   );
-  // }
-
   editElement(id: number) {
     const dialogRef = this.dialog.open(ProductFormEditComponent, {
       width: '800px',

@@ -57,13 +57,14 @@
 
 .charts-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(700px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
   gap: 24px;
 }
 
 .chart-card {
   background: white;
   border-radius: 12px;
+  align-items: center;
   padding: 24px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 

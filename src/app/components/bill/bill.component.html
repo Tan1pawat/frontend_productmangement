@@ -88,14 +88,14 @@
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_expense || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">{{ item.sum_total || "-" }}</td>
                             <td class="px-6 py-4 text-center align-middle">
-                                <button mat-button
+                                <button mat-button matTooltip="กดเพื่อดาวน์โหลดใบส่งสินค้า"
                                     class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"
                                     (click)="downloadorder(item.id)">
                                     <mat-icon>file_download</mat-icon>
                                 </button>
                             </td>
                             <td class="px-6 py-4 text-center align-middle">
-                                <button mat-button
+                                <button mat-button matTooltip="กดเพื่อดาวน์โหลดใบเสร็จ"
                                     class="text-gray-600 hover:text-gray-800 bg-green-500 rounded-full w-20"
                                     (click)="downloadinvoice(item.id)">
                                     <mat-icon>file_download</mat-icon>
