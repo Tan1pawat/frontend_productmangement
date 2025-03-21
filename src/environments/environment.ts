@@ -1,4 +1,3 @@
-export const environment = {
-    production: false,
-    baseURL: 'http://localhost/Stock-Management/Stock-Mangement/public'
-};
+import { environment as devEnv } from './environment.development';
+
+export const environment = { ...devEnv };

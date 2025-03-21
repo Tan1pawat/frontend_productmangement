@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { DataTablesResponse } from '../../shared/datatable.types';
 import { Product } from '../../shared/product.types';
