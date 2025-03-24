@@ -1,12 +1,17 @@
 {
   "name": "product-management",
+  "main": "main.js",
   "version": "0.0.0",
+  "author": "Tancoding",
+  "description": "Product Management",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "electron": "ng build --base-href ./ && electron .",
+    "dist": "ng build --base-href ./ && electron-builder"
   },
   "private": true,
   "dependencies": {
@@ -26,8 +31,10 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "datatables.net": "^2.0.3",
     "datatables.net-dt": "^2.0.3",
+    "electron-packager": "^17.1.2",
     "jquery": "^3.6.0",
     "rxjs": "~7.8.0",
+    "tcp-port-used": "^1.0.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },
@@ -38,6 +45,8 @@
     "@types/jasmine": "~5.1.0",
     "@types/jquery": "^3.5.9",
     "autoprefixer": "^10.4.20",
+    "electron": "^35.0.3",
+    "electron-builder": "^25.1.8",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -47,5 +56,18 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.14",
     "typescript": "~5.4.2"
+  },
+  "build": {
+    "appId": "com.product-management",
+    "productName": "Product Management",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "files": [
+      "**/*",
+      "dist/product-management/browser/**"
+    ]
   }
 }
