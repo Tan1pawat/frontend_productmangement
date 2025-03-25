@@ -1,1 +1,70 @@
-<p>company works!</p>
+<div class="flex flex-col flex-auto min-w-0 bg-gray-50">
+    <!-- Loader -->
+    <div class="absolute inset-x-0 bottom-0" *ngIf="isLoading">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <!-- Header Section -->
+    <div class="flex flex-col sm:flex-row items-center justify-between p-8 border-b bg-white shadow-sm">
+        <div class="w-full">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-6">
+                <span class="text-xl font-semibold tracking-tight text-gray-900">
+                    สินค้าในคลัง
+                </span>
+                <div class="flex items-center gap-4">
+                    <button
+                        class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 flex items-center"
+                        mat-flat-button (click)="addElement()">
+                        <mat-icon>add</mat-icon>
+                        <span class="ml-2">เพิ่มบริษัท</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="p-8">
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden p-4">
+            <div class="overflow-x-auto">
+                <table datatable [dtOptions]="dtOptions" class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50 border-b">
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">จัดการ</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ลําดับ</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">รหัส</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ชื่อบริษัท</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">ที่อยู่</th>
+                            <th class="px-6 py-4 text-left text-sm font-medium text-gray-700">เลขผู้เสียภาษี</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="dataRow?.length != 0" class="divide-y divide-gray-200 mx-3">
+                        <tr *ngFor="let item of dataRow; let i = index"
+                            class="hover:bg-gray-50 transition-colors duration-150">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center justify-center gap-2">
+                                    <button mat-icon-button class="text-blue-600 hover:text-blue-800"
+                                        (click)="editElement(item.id)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button class="text-red-600 hover:text-red-800"
+                                        (click)="delete(item.id)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.No }}</td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.code || "-" }}</td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.name || "-" }}</td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.sender_address || "-" }}</td>
+                            <td class="px-6 py-4 text-center align-middle">{{ item.sender_tax_number || "-" }}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataRow?.length == 0">
+                        <td colspan="8" class="px-6 py-8 text-center text-gray-500">ไม่พบข้อมูล</td>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
