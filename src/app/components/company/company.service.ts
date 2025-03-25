@@ -29,11 +29,41 @@ export class CompanyService {
 
   delete(id: number): Observable<any> {
     return this._httpClient
-        .delete<any>(environment.baseURL + '/api/company/'+id)
-        .pipe(
-          switchMap((response: any) => {
-            return of(response.data);
-          })
-        );
+      .delete<any>(environment.baseURL + '/api/company/' + id)
+      .pipe(
+        switchMap((response: any) => {
+          return of(response.data);
+        })
+      );
+  }
+
+  create(data: FormData): Observable<any> {
+    return this._httpClient
+      .post<any>(environment.baseURL + '/api/company', data)
+      .pipe(
+        switchMap((response: any) => {
+          return of(response.data);
+        })
+      );
+  }
+
+  getCompanyById(id: number): Observable<any> {
+    return this._httpClient
+      .get<any>(environment.baseURL + '/api/company/' + id)
+      .pipe(
+        switchMap((response: any) => {
+          return of(response.data);
+        })
+      );
+  }
+
+  update(id: number, data: any): Observable<any> {
+    return this._httpClient
+      .put<any>(environment.baseURL + '/api/company/' + id, data)
+      .pipe(
+        switchMap((response: any) => {
+          return of(response.data);
+        })
+      );
   }
 }

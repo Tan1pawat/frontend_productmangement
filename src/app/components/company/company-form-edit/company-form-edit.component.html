@@ -1,1 +1,55 @@
-<p>company-form-edit works!</p>
+<div class="p-6 bg-white rounded-lg shadow-md">
+    <!-- Image Upload Section -->
+    <div class="flex flex-col items-center mb-6">
+        <h2 class="text-2xl font-semibold text-blue-600 mb-4">
+            {{ isEdit ? 'แก้ไขข้อมูลบริษัท' : 'เพิ่มสินค้า' }}
+        </h2>
+    </div>
+
+    <!-- Form Section -->
+    <form [formGroup]="CompanyForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            <mat-form-field class="w-full">
+                <mat-label>ชื่อบริษัท</mat-label>
+                <input matInput formControlName="name" placeholder="กรอกชื่อบริษัท">
+                <mat-error *ngIf="CompanyForm.get('name')?.hasError('required')">
+                    กรุณากรอกชื่อบริษัท
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>รหัสบริษัท</mat-label>
+                <input matInput formControlName="code" placeholder="กรอกรหัสบริษัท">
+                <mat-error *ngIf="CompanyForm.get('code')?.hasError('required')">
+                    กรุณากรอกรหัสบริษัท
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>ที่อยู่</mat-label>
+                <input matInput formControlName="sender_address" placeholder="กรอกที่อยู่">
+                <mat-error *ngIf="CompanyForm.get('sender_address')?.hasError('required')">
+                    กรุณาที่อยู่
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="w-full">
+                <mat-label>เลขกำกับภาษี</mat-label>
+                <input matInput type="number" formControlName="sender_tax_number" placeholder="กรอกเลขกำกับภาษี">
+                <mat-error *ngIf="CompanyForm.get('sender_tax_number')?.hasError('required')">
+                    เลขกำกับภาษี
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <!-- Action Buttons -->
+        <div class="flex justify-end space-x-4 mt-6">
+            <button type="button" mat-stroked-button color="warn" (click)="dialogRef.close()">
+                ยกเลิก
+            </button>
+            <button type="submit" mat-flat-button color="primary" [disabled]="CompanyForm.invalid">
+                {{ isEdit ? 'บันทึกการแก้ไข' : 'บันทึก' }}
+            </button>
+        </div>
+    </form>
+</div>

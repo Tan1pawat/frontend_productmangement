@@ -13,6 +13,8 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 import { PictureComponent } from '../picture/picture.component';
 import { ProductService } from '../product/product.service';
 import { CompanyService } from './company.service';
+import { CompanyFormComponent } from './company-form/company-form.component';
+import { CompanyFormEditComponent } from './company-form-edit/company-form-edit.component';
 
 @Component({
   selector: 'app-company',
@@ -49,7 +51,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   addElement() {
-    const dialogRef = this.dialog.open(ProductFormDialogComponent, {
+    const dialogRef = this.dialog.open(CompanyFormComponent, {
       width: '800px',
       height: 'auto',
       disableClose: true,
@@ -64,7 +66,7 @@ export class CompanyComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   editElement(id: number) {
-    const dialogRef = this.dialog.open(ProductFormEditComponent, {
+    const dialogRef = this.dialog.open(CompanyFormEditComponent, {
       width: '800px',
       height: 'auto',
       data: { id: id },
@@ -100,24 +102,6 @@ export class CompanyComponent implements AfterViewInit, OnDestroy, OnInit {
         });
       }
     });
-  }
-
-  showPicture(imgObject: any): void {
-    this.dialog
-      .open(PictureComponent, {
-        width: 'auto',
-        height: 'auto',
-        disableClose: true,
-        data: {
-          imgSelected: imgObject,
-        },
-        panelClass: 'picture-dialog',
-      })
-      .afterClosed()
-      .subscribe(() => {
-        // Go up twice because card routes are setup like this; "card/CARD_ID"
-        // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
-      });
   }
 
   pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
